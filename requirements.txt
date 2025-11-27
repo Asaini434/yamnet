@@ -1,0 +1,7 @@
+tensorflow==2.15.0
+tensorflow_hub
+numpy
+scipy
+matplotlib
+soundfile
+tqdm
