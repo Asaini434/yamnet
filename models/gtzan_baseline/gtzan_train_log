@@ -1,0 +1,129 @@
+sys.path.append("/home/ashylarry/PycharmProjects/yamnet/src")
+import train
+_ = train.load_waveform_dataset("datasets/gtzan", split="train", shuffle=False)
+num_classes = len(train.CLASS_NAMES)  # access via the module
+print("num_classes:", num_classes)
+model, history = train.train(
+    data_root="datasets/gtzan",
+    num_classes=num_classes,
+    batch_size=32,
+    epochs=20,
+    model_dir="models/gtzan_baseline",
+)
+
+Discovered classes: ['blues', 'classical', 'country', 'disco', 'hiphop', 'jazz', 'metal', 'pop', 'reggae', 'rock']
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1764898851.195735   71014 cuda_executor.cc:1309] INTERNAL: CUDA Runtime error: Failed call to cudaGetRuntimeVersion: Error loading CUDA libraries. GPU will not be used.: Error loading CUDA libraries. GPU will not be used.
+W0000 00:00:1764898851.207221   71014 gpu_device.cc:2342] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+num_classes: 10
+WARNING:tensorflow:AutoGraph could not transform <function getenv at 0x7e10a9a160c0> and will run it as-is.
+Cause: Unable to locate the source code of <function getenv at 0x7e10a9a160c0>. Note that functions defined in certain environments, like the interactive Python shell, do not expose their source code. If that is the case, you should define them in a .py source file. If you are certain the code is graph-compatible, wrap the call using @tf.autograph.experimental.do_not_convert. Original error: could not get source code
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+WARNING:tensorflow:AutoGraph could not transform <function _fscodec.<locals>.fsdecode at 0x7e10a9a16d40> and will run it as-is.
+Cause: Unable to locate the source code of <function _fscodec.<locals>.fsdecode at 0x7e10a9a16d40>. Note that functions defined in certain environments, like the interactive Python shell, do not expose their source code. If that is the case, you should define them in a .py source file. If you are certain the code is graph-compatible, wrap the call using @tf.autograph.experimental.do_not_convert. Original error: could not get source code
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+Epoch 1/20
+2025-12-04 20:41:07.784669: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 134 of 10000
+2025-12-04 20:41:27.444552: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 603 of 10000
+2025-12-04 20:41:35.040091: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 43s 216ms/step - acc: 0.5950 - loss: 1.3657 - top5_acc: 0.9038 - val_acc: 0.8200 - val_loss: 0.6082 - val_top5_acc: 0.9900
+Epoch 2/20
+2025-12-04 20:41:50.283005: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 144 of 10000
+2025-12-04 20:42:00.427165: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 386 of 10000
+2025-12-04 20:42:17.161916: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 42s 219ms/step - acc: 0.8025 - loss: 0.6627 - top5_acc: 0.9862 - val_acc: 0.8100 - val_loss: 0.5933 - val_top5_acc: 1.0000
+Epoch 3/20
+2025-12-04 20:42:32.536722: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 141 of 10000
+2025-12-04 20:42:52.502823: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 634 of 10000
+2025-12-04 20:42:58.972086: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 42s 219ms/step - acc: 0.8288 - loss: 0.5263 - top5_acc: 0.9925 - val_acc: 0.8700 - val_loss: 0.4452 - val_top5_acc: 1.0000
+Epoch 4/20
+2025-12-04 20:43:14.274547: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 141 of 10000
+2025-12-04 20:43:24.480853: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 373 of 10000
+2025-12-04 20:43:42.524222: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 43s 209ms/step - acc: 0.8375 - loss: 0.5068 - top5_acc: 0.9975 - val_acc: 0.8500 - val_loss: 0.4205 - val_top5_acc: 1.0000
+Epoch 5/20
+2025-12-04 20:43:57.764404: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 122 of 10000
+2025-12-04 20:44:17.761444: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 595 of 10000
+2025-12-04 20:44:25.985015: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 43s 208ms/step - acc: 0.8475 - loss: 0.4531 - top5_acc: 0.9937 - val_acc: 0.8500 - val_loss: 0.4534 - val_top5_acc: 1.0000
+Epoch 6/20
+2025-12-04 20:44:41.120601: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 129 of 10000
+2025-12-04 20:44:51.142887: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 361 of 10000
+2025-12-04 20:45:01.170565: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 613 of 10000
+2025-12-04 20:45:08.398326: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 42s 200ms/step - acc: 0.8662 - loss: 0.4218 - top5_acc: 0.9950 - val_acc: 0.8700 - val_loss: 0.4956 - val_top5_acc: 1.0000
+Epoch 7/20
+2025-12-04 20:45:23.269824: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 136 of 10000
+2025-12-04 20:45:33.379473: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 374 of 10000
+2025-12-04 20:45:50.462516: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 42s 208ms/step - acc: 0.8637 - loss: 0.3946 - top5_acc: 0.9950 - val_acc: 0.8900 - val_loss: 0.4364 - val_top5_acc: 0.9900
+Epoch 8/20
+2025-12-04 20:46:05.531071: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 139 of 10000
+2025-12-04 20:46:25.560779: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 612 of 10000
+2025-12-04 20:46:32.977068: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 43s 211ms/step - acc: 0.8775 - loss: 0.3578 - top5_acc: 0.9987 - val_acc: 0.8400 - val_loss: 0.4817 - val_top5_acc: 1.0000
+Epoch 9/20
+2025-12-04 20:46:48.068027: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 144 of 10000
+2025-12-04 20:46:58.069494: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 386 of 10000
+2025-12-04 20:47:08.107868: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 628 of 10000
+2025-12-04 20:47:14.616922: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 41s 200ms/step - acc: 0.8863 - loss: 0.3381 - top5_acc: 0.9975 - val_acc: 0.8900 - val_loss: 0.3813 - val_top5_acc: 0.9900
+Epoch 10/20
+2025-12-04 20:47:29.465912: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 144 of 10000
+2025-12-04 20:47:39.537317: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 392 of 10000
+2025-12-04 20:47:55.625745: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 41s 200ms/step - acc: 0.9025 - loss: 0.3144 - top5_acc: 1.0000 - val_acc: 0.8500 - val_loss: 0.4697 - val_top5_acc: 1.0000
+Epoch 11/20
+2025-12-04 20:48:10.527455: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 144 of 10000
+2025-12-04 20:48:20.571475: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 394 of 10000
+2025-12-04 20:48:36.552334: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 41s 199ms/step - acc: 0.8963 - loss: 0.3234 - top5_acc: 0.9987 - val_acc: 0.8400 - val_loss: 0.4378 - val_top5_acc: 1.0000
+Epoch 12/20
+2025-12-04 20:48:51.393786: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 141 of 10000
+2025-12-04 20:49:01.402383: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 380 of 10000
+2025-12-04 20:49:11.493119: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 631 of 10000
+2025-12-04 20:49:17.939461: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 41s 204ms/step - acc: 0.9075 - loss: 0.2847 - top5_acc: 0.9975 - val_acc: 0.8800 - val_loss: 0.4437 - val_top5_acc: 1.0000
+Epoch 13/20
+2025-12-04 20:49:32.962507: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 143 of 10000
+2025-12-04 20:49:52.908611: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 615 of 10000
+2025-12-04 20:49:59.912538: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 42s 202ms/step - acc: 0.9087 - loss: 0.2702 - top5_acc: 0.9975 - val_acc: 0.8800 - val_loss: 0.3790 - val_top5_acc: 0.9900
+Epoch 14/20
+2025-12-04 20:50:15.012238: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 135 of 10000
+2025-12-04 20:50:34.912839: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 614 of 10000
+2025-12-04 20:50:42.107718: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 42s 203ms/step - acc: 0.9062 - loss: 0.2682 - top5_acc: 0.9975 - val_acc: 0.8900 - val_loss: 0.3571 - val_top5_acc: 0.9900
+Epoch 15/20
+2025-12-04 20:50:57.151830: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 136 of 10000
+2025-12-04 20:51:17.126833: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 633 of 10000
+2025-12-04 20:51:23.490883: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 41s 201ms/step - acc: 0.9312 - loss: 0.2171 - top5_acc: 1.0000 - val_acc: 0.8900 - val_loss: 0.4034 - val_top5_acc: 0.9900
+Epoch 16/20
+2025-12-04 20:51:38.505079: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 127 of 10000
+2025-12-04 20:51:58.565533: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 627 of 10000
+2025-12-04 20:52:05.248669: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 42s 200ms/step - acc: 0.8950 - loss: 0.2570 - top5_acc: 1.0000 - val_acc: 0.8600 - val_loss: 0.4510 - val_top5_acc: 1.0000
+Epoch 17/20
+2025-12-04 20:52:20.210145: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 145 of 10000
+2025-12-04 20:52:40.123469: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 637 of 10000
+2025-12-04 20:52:46.329490: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 41s 201ms/step - acc: 0.9212 - loss: 0.2438 - top5_acc: 1.0000 - val_acc: 0.8800 - val_loss: 0.4657 - val_top5_acc: 1.0000
+Epoch 18/20
+2025-12-04 20:53:01.375146: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 144 of 10000
+2025-12-04 20:53:21.263586: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 635 of 10000
+2025-12-04 20:53:27.541878: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 41s 204ms/step - acc: 0.9100 - loss: 0.2584 - top5_acc: 0.9987 - val_acc: 0.8800 - val_loss: 0.3857 - val_top5_acc: 1.0000
+Epoch 19/20
+2025-12-04 20:53:42.581802: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 142 of 10000
+2025-12-04 20:53:52.738746: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 394 of 10000
+2025-12-04 20:54:08.622212: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 41s 202ms/step - acc: 0.9250 - loss: 0.2472 - top5_acc: 0.9975 - val_acc: 0.8700 - val_loss: 0.4529 - val_top5_acc: 1.0000
+Epoch 20/20
+2025-12-04 20:54:23.959067: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 143 of 10000
+2025-12-04 20:54:43.630438: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:453] ShuffleDatasetV3:12: Filling up shuffle buffer (this may take a while): 631 of 10000
+2025-12-04 20:54:50.015420: I tensorflow/core/kernels/data/shuffle_dataset_op.cc:483] Shuffle buffer filled.
+25/25 ━━━━━━━━━━━━━━━━━━━━ 41s 203ms/step - acc: 0.9388 - loss: 0.2004 - top5_acc: 0.9987 - val_acc: 0.9000 - val_loss: 0.3868 - val_top5_acc: 1.0000
+Saved final classifier to: models/gtzan_baseline/classifier_final.keras

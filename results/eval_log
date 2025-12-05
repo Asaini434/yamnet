@@ -1,0 +1,35 @@
+import sys
+sys.path.append("/home/ashylarry/PycharmProjects/yamnet/src")
+import matplotlib.pyplot as plt
+import seaborn as sns
+sys.argv = [
+    'eval.py',
+    '--data_root', 'datasets/gtzan',
+    '--split', 'test',
+    '--model_dir', 'models/gtzan_baseline',
+    '--output', 'results/eval_test.json',
+    '--plot_cm'
+]
+exec(open('/home/ashylarry/PycharmProjects/yamnet/src/eval.py').read())
+2025-12-04 22:27:19.101912: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Split: test
+Distortion: none
+Accuracy: 0.83
+Macro F1: 0.8326662243844906
+Saved confusion matrix: results/eval_test_confusion_matrix.png
+
+import sys
+sys.path.append("/home/ashylarry/PycharmProjects/yamnet/src")
+sys.argv = [
+    'embed_tsne.py',
+    '--data_root', 'datasets/gtzan',
+    '--split', 'test',
+    '--output_csv', 'results/tsne_test.csv'
+]
+exec(open('/home/ashylarry/PycharmProjects/yamnet/src/embed_tsne.py').read())
+2025-12-04 22:30:58.848463: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Embeddings shape: (100, 1024)
+Silhouette: 0.1029, Davies-Bouldin: 2.4251, Calinski-Harabasz: 10.01
+Saved metrics: results/tsne_test_metrics.json
+Saved t-SNE coordinates to results/tsne_test.csv
+Saved plot: results/tsne_test.png
