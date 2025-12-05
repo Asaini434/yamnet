@@ -5,13 +5,14 @@
 
 
 import os
-from typing import Tuple
+from typing import Tuple, List, Optional
 
 import tensorflow as tf
 
 from yamnet_backbone import map_to_embedding
 from classifier_model import build_embedding_classifier
 
+CLASS_NAMES: Optional[List[str]] = None
 
 # =========================
 # 1. Dataset loading
@@ -20,16 +21,66 @@ from classifier_model import build_embedding_classifier
 def load_waveform_dataset(
     data_root: str,
     split: str = "train",
+    shuffle: bool = True,
 ) -> tf.data.Dataset:
     """
-    (Tony): Implement real dataset loading.
-    For now we raise NotImplementedError.
+    Loads GTZAN-based dataset from path (datasets/gtzan/[split]/[genre]/*.wav)
+        [split]: train, val, test
+    Returns:
+        tf.data.Dataset of (waveform, label_index)
+        -waveform: 1-D float32 tensor at 16 kHz
+        -label_index: scalar int64
     """
-    raise NotImplementedError(
-        "Dataset loader not implemented yet. "
-        "Tony: please implement load_waveform_dataset() in train.py."
-    )
+    import pathlib
+    global CLASS_NAMES
 
+    split_dir = pathlib.Path(data_root) / split
+    if not split_dir.exists():
+        raise FileNotFoundError(f"Split directory not found: {split_dir}")
+    class_dirs = sorted(d for d in split_dir.iterdir() if d.is_dir())
+    if not class_dirs:
+        raise RuntimeError(f"No class subdirectories under {split_dir}")
+    if CLASS_NAMES is None:
+        CLASS_NAMES = [d.name for d in class_dirs]
+        print("Discovered classes:", CLASS_NAMES)
+
+    filepaths = []
+    labels = []
+    for class_idx, class_dir in enumerate(class_dirs):
+        for wav_path in class_dir.glob("*.wav"):
+            filepaths.append(str(wav_path))
+            labels.append(class_idx)
+    if not filepaths:
+        raise RuntimeError(f"No .wav files found under {split_dir}")
+    path_ds = tf.data.Dataset.from_tensor_slices((filepaths, labels))
+
+    def _load_wav(path, label):
+        audio_bin = tf.io.read_file(path)
+        waveform, sample_rate = tf.audio.decode_wav(audio_bin)
+        waveform = tf.reduce_mean(waveform, axis=-1)  # (num_samples,)
+        waveform = tf.cast(waveform, tf.float32)
+        sample_rate = tf.cast(sample_rate, tf.int32)
+        target_sr = 16000
+        def _resample():
+            num_samples = tf.shape(waveform)[0]
+            ratio = tf.cast(target_sr, tf.float32) / tf.cast(sample_rate, tf.float32)
+            new_len = tf.cast(tf.cast(num_samples, tf.float32) * ratio, tf.int32)
+            wav_2d = tf.reshape(waveform, [1, -1, 1])
+            wav_resized = tf.image.resize(wav_2d, [1, new_len], method="bilinear")
+            wav_out = tf.reshape(wav_resized, [-1])
+            return wav_out
+        waveform_16k = tf.cond(
+            sample_rate == target_sr,
+            lambda: waveform,
+            _resample,
+        )
+        return waveform_16k, tf.cast(label, tf.int64)
+
+    ds = path_ds.map(_load_wav, num_parallel_calls=tf.data.AUTOTUNE)
+    if shuffle:
+        ds = ds.shuffle(buffer_size=len(filepaths))
+    ds = ds.prefetch(tf.data.AUTOTUNE)
+    return ds
 
 def make_embedding_dataset(
     wave_ds: tf.data.Dataset,
