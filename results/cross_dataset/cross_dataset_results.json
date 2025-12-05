@@ -1,0 +1,25 @@
+{
+  "source_dataset": "datasets/gtzan",
+  "target_dataset": "datasets/fma_small",
+  "source_metrics": {
+    "accuracy": 0.83,
+    "macro_f1": 0.8326662243844906,
+    "silhouette_score": 0.10293470323085785,
+    "davies_bouldin_index": 2.4251357381723357,
+    "calinski_harabasz_score": 10.010564804077148,
+    "num_samples": 100
+  },
+  "target_metrics": {
+    "accuracy": 0.11666666666666667,
+    "macro_f1": 0.08721690590111643,
+    "silhouette_score": 0.012403219938278198,
+    "davies_bouldin_index": 3.419508797095681,
+    "calinski_harabasz_score": 6.57202672958374,
+    "num_samples": 120
+  },
+  "performance_drop": {
+    "accuracy": 0.7133333333333333,
+    "macro_f1": 0.7454493184833741,
+    "silhouette_score": 0.09053148329257965
+  }
+}
