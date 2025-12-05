@@ -31,7 +31,7 @@ if __name__ == "__main__":
     labels = np.concatenate(all_labels, axis=0)
     print("Embeddings shape:", embeddings.shape)
 
-    sil_score = silhouette_score(embeddings, labels) # computer cluster quality metrics
+    sil_score = silhouette_score(embeddings, labels) # compute cluster quality metrics
     db_index = davies_bouldin_score(embeddings, labels)
     ch_score = calinski_harabasz_score(embeddings, labels)
     print(f"Silhouette: {sil_score:.4f}, Davies-Bouldin: {db_index:.4f}, Calinski-Harabasz: {ch_score:.2f}")
