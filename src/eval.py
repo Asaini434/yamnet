@@ -13,6 +13,12 @@ from sklearn.metrics import (
 )
 
 from train import load_waveform_dataset, make_embedding_dataset, CLASS_NAMES
+
+#CLASS_NAMES = [
+#    "blues", "classical", "country", "disco", "hiphop",
+#    "jazz", "metal", "pop", "reggae", "rock"
+#]
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--data_root", type=str, required=True, help="Root of dataset, e.g. datasets/gtzan")
@@ -20,7 +26,7 @@ if __name__ == "__main__":
     ap.add_argument("--model_dir", type=str, default="models", help="Directory containing classifier_best.keras")
     ap.add_argument("--batch_size", type=int, default=64)
     ap.add_argument("--output", type=str, default="results/eval_gtzan.json")
-    ap.add_argument("--distortion", type=str, default="none", choices=["none", "noise", "gain"])
+    ap.add_argument("--distortion", type=str, default="none", choices=["none", "noise", "gain", "time_stretch", "pitch_shift", "crop"])
     ap.add_argument("--topk", type=int, nargs="*", default=[3, 5])
     ap.add_argument("--plot_cm", action="store_true", help="Plot confusion matrix")
     args = ap.parse_args()
@@ -38,6 +44,28 @@ if __name__ == "__main__":
             gain_db = tf.random.uniform([], -6.0, 6.0)
             gain = tf.pow(10.0, gain_db / 20.0)
             return tf.clip_by_value(waveform * gain, -1.0, 1.0), label
+        elif args.distortion == "time_stretch":
+            # Stretch/compress by resampling
+            rate = tf.random.uniform([], 0.8, 1.2)  # slower or faster
+            orig_len = tf.shape(waveform)[0]
+            new_len = tf.cast(tf.cast(orig_len, tf.float32) / rate, tf.int32)
+            waveform_2d = tf.expand_dims(waveform, axis=0)[..., tf.newaxis]  # (1, N, 1)
+            stretched = tf.image.resize(waveform_2d, [1, new_len], method="bilinear")
+            waveform = tf.squeeze(stretched, axis=[0, -1])
+        elif args.distortion == "pitch_shift":
+            # Simple pitch shift via resampling
+            n_steps = tf.random.uniform([], -4, 4, dtype=tf.int32)  # semitones
+            factor = 2 ** (tf.cast(n_steps, tf.float32) / 12.0)
+            orig_len = tf.shape(waveform)[0]
+            new_len = tf.cast(tf.cast(orig_len, tf.float32) / factor, tf.int32)
+            waveform_2d = tf.expand_dims(waveform, axis=0)[..., tf.newaxis]
+            shifted = tf.image.resize(waveform_2d, [1, new_len], method="bilinear")
+            waveform = tf.squeeze(shifted, axis=[0, -1])
+        elif args.distortion == "crop":
+            crop_size = tf.cast(tf.cast(tf.shape(waveform)[0], tf.float32) * 0.8, tf.int32) # keep 80%
+            if tf.shape(waveform)[0] > crop_size:
+                start = tf.random.uniform([], 0, tf.shape(waveform)[0] - crop_size, dtype=tf.int32)
+                waveform = waveform[start:start + crop_size]
         return waveform, label
 
     wave_ds = base_ds.map(_apply_distortion, num_parallel_calls=tf.data.AUTOTUNE)
