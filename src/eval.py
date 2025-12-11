@@ -38,7 +38,7 @@ if __name__ == "__main__":
             return waveform, label
         elif args.distortion == "noise":
             rms = tf.sqrt(tf.reduce_mean(tf.square(waveform)) + 1e-8)
-            noise = tf.random.normal(tf.shape(waveform), stddev=rms / 10.0)
+            noise = tf.random.normal(tf.shape(waveform), stddev=rms /10.0)
             return tf.clip_by_value(waveform + noise, -1.0, 1.0), label
         elif args.distortion == "gain":
             gain_db = tf.random.uniform([], -6.0, 6.0)
@@ -53,7 +53,7 @@ if __name__ == "__main__":
             stretched = tf.image.resize(waveform_2d, [1, new_len], method="bilinear")
             waveform = tf.squeeze(stretched, axis=[0, -1])
         elif args.distortion == "pitch_shift":
-            # Simple pitch shift via resampling
+            # Pitch shift via resampling
             n_steps = tf.random.uniform([], -4, 4, dtype=tf.int32)  # semitones
             factor = 2 ** (tf.cast(n_steps, tf.float32) / 12.0)
             orig_len = tf.shape(waveform)[0]
@@ -71,7 +71,8 @@ if __name__ == "__main__":
     wave_ds = base_ds.map(_apply_distortion, num_parallel_calls=tf.data.AUTOTUNE)
     wave_ds = wave_ds.prefetch(tf.data.AUTOTUNE)
     emb_ds = make_embedding_dataset(wave_ds, batch_size=args.batch_size, shuffle=False)
-    model_path = os.path.join(args.model_dir, "classifier_best.keras") # load model inline
+    #model_path = os.path.join(args.model_dir, "classifier_augmented.keras") # load model augmented
+    model_path = os.path.join(args.model_dir, "classifier_best.keras")
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"Model not found at {model_path}")
     model = tf.keras.models.load_model(model_path)
