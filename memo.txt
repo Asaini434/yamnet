@@ -1,8 +1,27 @@
 Project: YAMNet Mobile Audio Classification
 Course: Topics in ECE, Mobile embedded systems
+Team Members: Ananya Saini (as4341), Donovan Holgado (dmh313), Tony Lu (hl990), Ethan Nguyen (en256)
 
 This memo describes the structure of the source code included in this submission
 and explains the role of each major component.
+
+## Project Overview
+
+This project explores the adaptation of YAMNet, a lightweight audio event
+classification model trained on Google’s AudioSet, for music genre
+classification and mobile deployment. Using transfer learning, we build a
+custom classifier on top of YAMNet embeddings and evaluate the model under
+different loss functions and realistic audio distortions. The final model is
+exported to TensorFlow Lite (TFLite) for on-device inference.
+
+## Objectives
+
+- Adapt YAMNet for transfer learning using a downstream music genre dataset.
+- Evaluate multiple loss functions and compare their impact on classification
+  performance.
+- Analyze model robustness under common audio distortions such as noise, pitch
+  shifting, and time stretching.
+- Export a deployable TensorFlow Lite model suitable for mobile devices.
 
 --------------------------------------------------
 1. Repository Structure
