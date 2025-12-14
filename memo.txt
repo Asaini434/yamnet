@@ -1,0 +1,79 @@
+Project: YAMNet Mobile Audio Classification
+Course: Topics in ECE, Mobile embedded systems
+
+This memo describes the structure of the source code included in this submission
+and explains the role of each major component.
+
+--------------------------------------------------
+1. Repository Structure
+--------------------------------------------------
+
+The project is organized to support modular experimentation and team-based
+development. Each component is isolated so that new loss functions, evaluation
+methods, and robustness analyses can be added without modifying the core model
+pipeline.
+
+Root Directory:
+- README.md          : Project overview and usage instructions
+- requirements.txt   : Python dependencies for running the project
+- memo.txt           : This file
+
+--------------------------------------------------
+2. Source Code (src/)
+--------------------------------------------------
+
+The src/ directory contains all executable code.
+
+src/yamnet_backbone.py
+- Loads the pretrained YAMNet model from TensorFlow Hub.
+- Converts raw 16 kHz mono audio waveforms into YAMNet embeddings.
+- Provides helper functions for mapping waveforms to fixed-size embeddings.
+- This file implements the core model adaptation required for transfer learning.
+
+src/classifier_model.py
+- Defines a lightweight neural network classifier that operates on
+  1024-dimensional YAMNet embeddings.
+- The classifier outputs logits for the target dataset classes.
+- This design allows YAMNet to remain frozen while the classifier is trained.
+
+src/train.py
+- Provides the main training pipeline.
+- Wires together dataset loading, YAMNet embedding extraction, and classifier
+  training.
+- Includes placeholders for dataset loading to allow flexible dataset selection.
+- Uses standard training callbacks and metrics.
+- This script serves as the integration point for loss functions, evaluation,
+  and robustness extensions.
+
+src/export_tflite.py
+- Builds a serving model that combines YAMNet and the trained classifier.
+- Converts the model into TensorFlow Lite format for mobile deployment.
+- Outputs a .tflite file suitable for on-device inference.
+
+--------------------------------------------------
+3. Dataset Handling (datasets/)
+--------------------------------------------------
+
+The datasets/ directory is reserved for audio datasets used in training and
+evaluation. 
+
+--------------------------------------------------
+4. Models and Outputs (models/)
+--------------------------------------------------
+
+The models/ directory stores trained classifier weights and exported TensorFlow
+Lite models. This includes:
+- Saved Keras model checkpoints
+- Final TensorFlow Lite (.tflite) models for mobile inference
+
+--------------------------------------------------
+5. Design Rationale
+--------------------------------------------------
+
+The codebase is designed with modularity in mind:
+- The pretrained YAMNet backbone is isolated from downstream task logic.
+- Classifier training, loss functions, evaluation, and robustness analyses can
+  be developed independently.
+- The export pipeline ensures that trained models can be deployed on mobile
+  devices, aligning with the course focus on on-device AI.
+
