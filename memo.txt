@@ -69,6 +69,13 @@ src/export_tflite.py
 - Converts the model into TensorFlow Lite format for mobile deployment.
 - Outputs a .tflite file suitable for on-device inference.
 
+src/losses.py
+- Defines 3 loss functions: Sparse Categorical Entropy Loss, Categorical Entropy Loss with
+  Label Smoothing, and Focal Loss with various parameters.
+- Uses the train function from train.py.
+- Experiments training the model with defined loss functions. 
+- Outputs a graph displaying the validation loss and accuracy with different loss functions. 
+
 --------------------------------------------------
 3. Dataset Handling (datasets/)
 --------------------------------------------------
