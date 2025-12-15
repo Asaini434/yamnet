@@ -123,9 +123,8 @@ def augment_dataset(ds: tf.data.Dataset, fraction: float = 0.5) -> tf.data.Datas
     return combined_ds.prefetch(tf.data.AUTOTUNE)
 
 
-# =========================
+
 # 3. Training loop
-# =========================
 def train_augmented(
     data_root: str,
     num_classes: int,

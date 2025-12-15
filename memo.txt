@@ -76,6 +76,18 @@ src/losses.py
 - Experiments training the model with defined loss functions. 
 - Outputs a graph displaying the validation loss and accuracy with different loss functions. 
 
+src/trainAugment.py
+-Builds off the base train.py
+-After reading training data extend training dataset by randomly augmenting data to show distortions
+
+src/robustness.py
+- Script to run different robustness tests on original model
+- Call eval.py with different distortions DISTORTIONS = ["noise", "gain", "time_stretch", "pitch_shift", "crop"]
+
+src/distortionPlots.py
+-Script to plot results of robustnesss evaluations
+-Using results in results file creates accuray vs distorion level curves
+
 --------------------------------------------------
 3. Dataset Handling (datasets/)
 --------------------------------------------------

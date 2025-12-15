@@ -9,7 +9,7 @@ AUG_RESULTS_ROOT = "../results/DistortionAugmentedModelEval"
 DISTORTIONS = ["noise", "pitch_shift", "time_stretch"]
 
 for distortion in DISTORTIONS:
-    # --- OG model ---
+    # OG model
     og_folders = [f for f in os.listdir(OG_RESULTS_ROOT)
                   if (f.startswith(distortion) or f == "none_eval") and f.endswith("_eval")]
     og_levels, og_accs = [], []
@@ -33,7 +33,7 @@ for distortion in DISTORTIONS:
         continue
     og_levels, og_accs = zip(*sorted(zip(og_levels, og_accs)))
 
-    # --- Augmented model ---
+    # Augmented model 
     aug_folders = [f for f in os.listdir(AUG_RESULTS_ROOT)
                    if (f.startswith(f"aug_{distortion}") or f == "aug_none_eval") and f.endswith("_eval")]
     aug_levels, aug_accs = [], []
@@ -57,7 +57,7 @@ for distortion in DISTORTIONS:
         continue
     aug_levels, aug_accs = zip(*sorted(zip(aug_levels, aug_accs)))
 
-    # --- Plot ---
+    # Plot 
     plt.figure(figsize=(8,5))
     plt.plot(og_levels, og_accs, marker='o', label="Original Model")
     plt.plot(aug_levels, aug_accs, marker='s', label="Augmented Model")
