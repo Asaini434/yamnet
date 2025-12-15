@@ -64,6 +64,25 @@ src/train.py
 - This script serves as the integration point for loss functions, evaluation,
   and robustness extensions.
 
+src/eval.py
+- Computes core classification metrics on the test set including accuracy, precision, recall, etc.
+- Generates normalized confusion matrices to visualize per-class performance and misclassification patterns.
+- Supports optional confusion matrix heatmap visualization using seaborn.
+- Provides detailed per-class performance breakdowns exported as JSON.
+
+src/embed_tsne.py
+- Performs embedding space analysis on YAMNet's high-dimensional feature representations.
+- Computes cluster quality metrics to quantify genre separation.
+- Applies t-SNE dimensionality reduction for 2D visualization of genre clustering patterns.
+- Outputs CSV coordinates, cluster metrics JSON, and visualizations showing genre relationships and homogeneity patterns.
+
+src/cross_dataset_eval.py
+- Evaluates cross-dataset generalization by testing GTZAN-trained models on FMA dataset.
+- Measures performance degradation and embedding space quality across different data distributions.
+- Generates side-by-side t-SNE visualizations comparing genre clustering between source and target datasets.
+- Quantifies label drift by analyzing how nominally identical genre labels manifest differently across datasets.
+- Outputs JSON metrics and overlay visualizations demonstrating domain shift.
+
 src/export_tflite.py
 - Builds a serving model that combines YAMNet and the trained classifier.
 - Converts the model into TensorFlow Lite format for mobile deployment.
@@ -103,6 +122,7 @@ The models/ directory stores trained classifier weights and exported TensorFlow
 Lite models. This includes:
 - Saved Keras model checkpoints
 - Final TensorFlow Lite (.tflite) models for mobile inference
+- Visualizations, including training curves, confusion matrices, t-SNE mappings
 
 --------------------------------------------------
 5. Design Rationale
